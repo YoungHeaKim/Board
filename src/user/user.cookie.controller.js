@@ -20,7 +20,7 @@ passport.deserializeUser((user, done) => {
 })
 
 // local strategy
-passport.use('sing-in', new LocalStrategy({
+passport.use('sign-in', new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password'
 }, async (email, password, done) => {
@@ -39,8 +39,7 @@ exports.cookie = (req, res) => {
     let date = new Date();
     // 토큰 10시간 유지
     date.setTime(date.getTime() + (1000 * 60 * 60 * 10));
-
-    if(!token) {
+    if (!token) {
       return res.redirect('/user/login');
     }
     return res.cookie('auth', token, { expires: date }).redirect('/article/lists');
