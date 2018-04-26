@@ -6,9 +6,9 @@ module.exports = {
       email: email
     });
   },
-  checkUsernameExist(username) {
+  checkNicknameExist(nickname) {
     return User.findOne({
-      username: username
+      nickname: nickname
     });
   },
   createUser(data) {
@@ -16,7 +16,7 @@ module.exports = {
       email: data.email,
       password: data.password,
       name: data.name,
-      username: data.username
+      nickname: data.nickname
     })
   },
 }
