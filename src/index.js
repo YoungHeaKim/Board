@@ -48,6 +48,7 @@ var sessionMiddleWare = session({
   resave: false,
   saveUninitialized: true,
   cookie: {
+    secure: false,
     maxAge: 2000 * 60 * 60 //지속시간 2시간
   },
   store: new MongoStore({
@@ -62,15 +63,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // 로그인정보를 뷰에서만 변수로 셋팅
-app.use( async (req, res, next) => {
-  const token = req.cookies.auth;
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  const user = await query.checkUserBy_id(decoded.id);
+app.use( (req, res, next) => {
   app.locals.isLogin = req.isAuthenticated();
   app.locals.userData = req.user;
   console.log(app.locals.isLogin)
-  console.log(app.locals.userData)  
-  console.log(token);
+  console.log(req.user)
   next()
 })
 
