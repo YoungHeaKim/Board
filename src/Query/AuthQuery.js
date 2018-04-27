@@ -19,4 +19,15 @@ module.exports = {
       nickname: data.nickname
     })
   },
+  updateUser(id, data) {
+    return User.findByIdAndUpdate(id, {
+      email: data.email,
+      password: data.password,
+      name: data.name,
+      nickname: data.nickname
+    })
+  },
+  checkUserBy_id(data) {
+    return User.findById(data)
+  },
 }
