@@ -7,6 +7,9 @@
     "type": "String",
     "required": "true"
   },
+  "thumnail": {
+    "type": "String"
+  },
   "content": {
     "type": "String",
     "required": "true"
