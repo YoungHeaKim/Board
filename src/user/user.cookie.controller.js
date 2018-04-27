@@ -8,22 +8,24 @@ const bcrypt = require('bcrypt');
 const query = require('../Query');
 
 // passport serialize
-passport.serializeUser((user, done) => {
+passport.serializeUser(function (user, done) {
   console.log('serialize');
   done(null, user);
 })
 
 // passport deserialize
-passport.deserializeUser((user, done) => {
-  console.log('deserialize');
-  done(null, user);
+passport.deserializeUser( function (user, done) {
+  const result = user;
+  result.password = "";
+  console.log('deserializeUser');
+  done(null, result);
 })
 
 // local strategy
 passport.use('sign-in', new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password'
-}, async (email, password, done) => {
+}, async (req, email, password, done) => {
   console.log('LocalStrategy');
   const checkUser = await query.checkIdExist(email);
   (checkUser && bcrypt.compareSync(password, checkUser.password)) ? done(null, checkUser) : done(null, false);
@@ -42,7 +44,7 @@ exports.cookie = (req, res) => {
     if (!token) {
       return res.redirect('/user/login');
     }
-    return res.cookie('auth', token, { expires: date }).redirect('/article/lists');
+    return res.cookie('auth', token, { expires: date }).send('<script>alert("로그인 성공");location.href="/";</script>');
   })(req, res);
 };
 
