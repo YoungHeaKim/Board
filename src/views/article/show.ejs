@@ -1,0 +1,30 @@
+<% include ../partials/header.ejs %>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <%=article.title%>
+  </div>
+  <div class="panel-body">
+    <div style="padding-bottom: 10px">
+       작성일 : 
+       <% article.createdDate %> 
+      </div>
+      <% if (article.thumbnail) { %>
+        <p>
+          <img src="/uploads/<%= article.thumbnail %>" style="max-width: 100%">
+        </p>
+      <% } %>
+
+      <%- article.coontent%>
+    </div>
+  </div>
+  <a href="/article/lists" class="btn btn-default">목록으로</a>
+  <% if(articleList.writer == user._id) { %>
+    <a href="/article/edit/<%= article._id %>" class="btn btn-primary">수정</a>
+    <form action="/article/lists/<%= article.id %>" method="post">
+      <a href="#" class="btn btn-danger" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
+    </form>
+  <% } %>
+</div>
+
+<% include ../partials/footer.ejs %>
