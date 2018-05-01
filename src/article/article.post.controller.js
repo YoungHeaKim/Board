@@ -1,5 +1,6 @@
 const query = require('../Query');
 const ms = require('../message');
+const jwt = require('jsonwebtoken');
 
 exports.createArticle = async (req, res) => {
   // 1. 로그인되어 있는 유저의 정보를 가져옴
