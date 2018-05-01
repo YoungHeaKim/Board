@@ -4,7 +4,7 @@
       <tr>
         <th>게시글 제목</th>
         <td>
-          <input type="text" name="name" class="form-control" value="<%= article.title %>" />
+          <input type="text" name="title" class="form-control" value="<%= article.title %>" />
         </td>
       </tr>
       <tr>
@@ -12,14 +12,14 @@
         <td>
           <input type="file" name="thumbnail"/>
           <% if(article.thumbnail) { %>
-            <a href="/uploads/<%= article.thumbnail">업로드 이미지 보기</a>
+            <a href="/uploads/<%= article.thumbnail %>">업로드 이미지 보기</a>
           <% } %>
         </td>
       </tr>
       <tr>
         <th>설명</th>
         <td>
-          <textarea name="content" id="summernote" class="form-control"<%- article.content %></textarea>
+          <textarea name="content" id="summernote" class="form-control"><%- article.content %></textarea>
         </td>
       </tr>
     </table>
