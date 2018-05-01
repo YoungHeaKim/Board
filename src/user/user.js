@@ -8,24 +8,25 @@ const app = express();
 
 const router = express.Router();
 
-// login 창
-router.get('/login', (req, res) => {
-  res.render(path.join(__dirname, '../views/login/login.ejs'));
-})
-
 // 회원가입부분
 router.get('/register', (req, res) => {
   res.render(path.join(__dirname, '../views/LogIn/register.ejs'));
 });
 
+// 회원가입
+router.post('/register', register.singUp);
+
 // 로그인
 router.post('/cookie', cookie.cookie);
+
+// login 창
+router.get('/login', (req, res) => {
+  res.render(path.join(__dirname, '../views/login/login.ejs'));
+})
 
 // 로그아웃
 router.get('/logout', cookie.cookieRemove);
 
-// 회원가입
-router.post('/register', register.singUp);
 
 // user 수정하는 페이지
 router.get('/edit', (req, res) => {
