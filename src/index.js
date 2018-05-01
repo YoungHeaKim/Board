@@ -24,6 +24,8 @@ const query = require('./Query');
 const User = require('./user/user');
 // 게시판 부분
 const Article = require('./article/article');
+// login - checker
+const checker = require('./user/user.access.controller')
 
 // ejs 템플릿
 // 확장자가 ejs 로 끈나는 뷰 엔진을 추가한다.
@@ -40,10 +42,10 @@ app.use(cookieParser());
 app.use('/uploads', express.static('uploads'));
 
 // session 관련 셋팅
-var connectMongo = require('connect-mongo');
-var MongoStore = connectMongo(session);
+const connectMongo = require('connect-mongo');
+const MongoStore = connectMongo(session);
 
-var sessionMiddleWare = session({
+const sessionMiddleWare = session({
   secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
@@ -55,7 +57,8 @@ var sessionMiddleWare = session({
     mongooseConnection: mongoose.connection,
     ttl: 14 * 24 * 60 * 60
   })
-});
+})
+
 app.use(sessionMiddleWare);
 
 // Passport
@@ -66,13 +69,11 @@ app.use(passport.session());
 app.use( (req, res, next) => {
   app.locals.isLogin = req.isAuthenticated();
   app.locals.userData = req.user;
-  console.log(app.locals.isLogin)
-  console.log(req.user)
   next()
 })
 
 app.use('/user', User);
-app.use('/article', Article);
+app.use('/article', checker.accessChecker, Article);
 // 기본페이지를 리스트페이지로 변환
 app.use('/', (req, res) => {
   return res.redirect('/article/lists');
