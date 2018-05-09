@@ -8,7 +8,7 @@ module.exports = {
     return Article.create({
       title: data.title,
       writer: data.writer,
-      thumnail: data.thumnail,
+      thumbnail: data.thumbnail,
       content: data.content
     })
   },
@@ -18,7 +18,7 @@ module.exports = {
   updateTitleAndDescription(Id, data) {
     return Article.findByIdAndUpdate(Id, {
       title: data.title,
-      thumnail: data.thumnail,
+      thumbnail: data.thumbnail,
       content: data.content
     })
   },
