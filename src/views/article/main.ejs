@@ -12,7 +12,7 @@
     <% } %>
     <% articleList.forEach( (article) => { %>
       <tr>  
-        <td><a href="/article/lists/<% article._id %>"><%= article.title %></a></td>
+        <td><a href="/article/lists/<%= article._id %>"><%= article.title %></a></td>
         <td>
           <%= article.createdDate %>
         </td>
