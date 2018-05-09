@@ -7,7 +7,7 @@
   <div class="panel-body">
     <div style="padding-bottom: 10px">
        작성일 : 
-       <% article.createdDate %> 
+       <%= article.createdDate %> 
       </div>
       <% if (article.thumbnail) { %>
         <p>
@@ -15,15 +15,13 @@
         </p>
       <% } %>
 
-      <%- article.coontent%>
+      <%- article.content %>
     </div>
   </div>
   <a href="/article/lists" class="btn btn-default">목록으로</a>
-  <% if(articleList.writer == user._id) { %>
+  <% if(article.writer === userData._id) { %>
     <a href="/article/edit/<%= article._id %>" class="btn btn-primary">수정</a>
-    <form action="/article/lists/<%= article.id %>" method="post">
-      <a href="#" class="btn btn-danger" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
-    </form>
+    <a href="/article/delete/<%= article.id %>" class="btn btn-danger" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
   <% } %>
 </div>
 
