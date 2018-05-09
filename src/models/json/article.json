@@ -1,17 +1,23 @@
 {
   "title": {
     "type": "String",
-    "required": "true"
+    "required": [
+      "true",
+      "제목은 입력해주세요"
+    ]
   },
   "writer": {
     "type": "String",
     "required": "true"
   },
-  "thumnail": {
+  "thumbnail": {
     "type": "String"
   },
   "content": {
     "type": "String",
-    "required": "true"
+    "required": [
+      "true",
+      "내용을 입력해주세요"
+    ]
   }
 }
