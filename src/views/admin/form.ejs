@@ -35,6 +35,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.6/lang/summernote-ko-KR.min.js"></script>
   <script>
     $(document).ready(function () {
+      $('#editForm').submit(() => {
+        $('input[name=files]').remove();
+      })
+
       $('#summernote').summernote({
         lang: 'ko-KR',
         height: 300,
@@ -44,10 +48,6 @@
           }
         }
       });
-
-      $('#editForm').submit(() => {
-        $('input[name=files]').remove();
-      })
 
       function sendFile(file, editor, welEditable) {
         data = new FormData();
