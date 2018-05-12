@@ -7,7 +7,15 @@
   <div class="panel-body">
     <div style="padding-bottom: 10px">
        작성일 : 
-       <%= article.createdDate %> 
+       <% if(article.createdAt === article.updatedAt) { %>
+        <%= article.getDate.year %> -
+        <%= article.getDate.month %> -
+        <%= article.getDate.day %>
+      <% } else { %>
+        <%= article.updatedDate.year %> -
+        <%= article.updatedDate.month %> -
+        <%= article.updatedDate.day %>
+      <% } %>
       </div>
       <% if (article.thumbnail) { %>
         <p>

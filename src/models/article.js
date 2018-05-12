@@ -7,30 +7,26 @@ const articleSchema = Schema(
   {
     toObject: { virtuals: true }
   });
-const util = require('../util');
 
 articleSchema.plugin(timestamps);
 articleSchema.plugin(paginate);
 
-// virtuals
-articleSchema.virtual("createdDate")
-  .get(() => {
-    return util.getDate(this.createdAt);
-  })
+articleSchema.virtual('getDate').get(function () {
+  const date = new Date(this.createdAt);  
+  return {
+    year : date.getFullYear(),
+    month: date.getMonth()+1,
+    day : date.getDate()
+  }
+})
 
-articleSchema.virtual("createdTime")
-  .get(() => {
-    return util.getTime(this.createdAt);
-  })
-
-articleSchema.virtual("updateDate")
-  .get(() => {
-    return util.getDate(this.updateAt);
-  })
-
-articleSchema.virtual("updateTime")
-  .get(() => {
-    return util.getDate(this.updateAt);
-  })
+articleSchema.virtual('updatedDate').get(function () {
+  const date = new Date(this.updatedAt);
+  return {
+    year: date.getFullYear(),
+    month: date.getMonth() + 1,
+    day: date.getDate()
+  }
+})
 
 module.exports = db.model('Article', articleSchema);
