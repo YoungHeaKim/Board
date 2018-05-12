@@ -1,5 +1,9 @@
+require('dotenv').config();
+
 const express = require('express');
+const aws = require('aws-sdk');
 const multer = require('multer');
+const multerS3 = require('multer-s3');
 const uuid = require('uuid');
 const path = require('path');
 
@@ -7,16 +11,26 @@ const path = require('path');
 const uploadDir = path.join(__dirname, '../uploads');
 const fs = require('fs');
 
-// multer 셋팅
-const storage = multer.diskStorage({
-  destination: function (req, file, callback) {
-    callback(null, uploadDir);
-  },
-  filename: function (req, file, callback) {
-    callback(null, 'article-' + Date.now() + '.' + file.mimetype.split('/')[1]);
-  }
+// aws s3 부분
+const awsAccessKey = process.env.AWS_ACCESS_KEY;
+const awsSecretKey = process.env.AWS_SECRET_KEY;
+const s3 = new aws.S3({
+  accessKeyId: awsAccessKey,
+  secretAccessKey: awsSecretKey,
 });
-const upload = multer({ storage: storage });
+
+// 사진 업로드
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: process.env.S3_BUCKET_NAME,
+    key: (req, file, cb) => {
+      let extension = path.extname(file.originalname);
+      cb(null, Date.now().toString() + extension)
+    },
+    acl: 'public-read-write',
+  })
+});
 
 const getting = require('./article.get.controller');
 const posting = require('./article.post.controller');
