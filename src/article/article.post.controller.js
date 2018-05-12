@@ -11,7 +11,7 @@ exports.createArticle = async (req, res) => {
   const ArticleInfo = {
     title: req.body.title,
     writer: user._id,
-    thumbnail: (req.file) ? req.file.location : "",
+    thumbnail: (req.file) ? req.file.key : "",
     content: req.body.content,
   }
   const articleCreate = await query.createArticle(ArticleInfo);
