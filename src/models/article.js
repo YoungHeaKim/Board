@@ -24,7 +24,7 @@ articleSchema.virtual('updatedDate').get(function () {
   const date = new Date(this.updatedAt);
   return {
     year: date.getFullYear(),
-    month: date.getMonth() + 1,
+    month: date.getMonth()+1,
     day: date.getDate()
   }
 })
