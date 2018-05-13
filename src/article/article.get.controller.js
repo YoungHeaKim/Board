@@ -4,9 +4,18 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 
 exports.mainPage = async (req, res) => {
-  const articleList = await query.findAllArticle()
+  const articles = await query.findAllArticle()
+  const articleList = [];
+  for(let idx = 0; idx < articles.length; idx++) {
+    const articleObj = {};
+    const user = await query.checkUserBy_id(articles[idx].writer);
+    articleObj.title = articles[idx].title;
+    articleObj.writer = user.nickname;
+    articleObj.getDate = articles[idx].getDate;
+    articleObj.updatedDate = articles[idx].updatedDate;    
+    articleList.push(articleObj);
+  }
   res.status(200).render((path.join(__dirname, '../views/article/main.ejs')), { articleList: articleList });
-
 };
 
 exports.articlePage = async (req, res) => {
