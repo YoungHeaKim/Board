@@ -3,7 +3,8 @@
   <table class="table table-bordered table-hover">
     <tr>
       <th>제목</th>
-      <th>작성일</th>      
+      <th>작성자</th>
+      <th>작성일</th>    
     </tr>
     <% if(articleList == null || articleList.length == 0) { %>
       <tr>
@@ -13,6 +14,9 @@
     <% articleList.forEach( (article) => { %>
       <tr>  
         <td><a href="/article/lists/<%= article._id %>"><%= article.title %></a></td>
+        <td>
+          <%= article.writer %>
+        </td>
         <td>
           <% if(article.createdAt === article.updatedAt) { %>
             <%= article.getDate.year %> -
