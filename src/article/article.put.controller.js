@@ -44,6 +44,7 @@ exports.edit = async (req, res) => {
   // 4. 저장한 articleEdit을 데이터베이스에 저장
   const updateArticle = await query.updateTitleAndDescription(article._id, articleEdit);
   if (updateArticle) {
-    return res.status(200).json('성공')
+    // return res.status(200).json('성공')
+    return res.status(200).redirect('/article/lists');
   }
 };

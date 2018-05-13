@@ -16,8 +16,8 @@ exports.createArticle = async (req, res) => {
   }
   const articleCreate = await query.createArticle(ArticleInfo);
   if(articleCreate) {
-    return res.status(200).json('글 등록 성공')
-    // return res.status(200).redirect('/article/lists');
+    // return res.status(200).json('글 등록 성공')
+    return res.status(200).redirect('/article/lists');
   }
 };
 
