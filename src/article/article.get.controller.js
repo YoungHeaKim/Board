@@ -9,6 +9,7 @@ exports.mainPage = async (req, res) => {
   for(let idx = 0; idx < articles.length; idx++) {
     const articleObj = {};
     const user = await query.checkUserBy_id(articles[idx].writer);
+    articleObj._id = articles[idx]._id;    
     articleObj.title = articles[idx].title;
     articleObj.writer = user.nickname;
     articleObj.getDate = articles[idx].getDate;
