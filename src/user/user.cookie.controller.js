@@ -44,11 +44,10 @@ exports.cookie = (req, res) => {
     }
     req.logIn(user, (err) => {
       if(err) {
-        console.log(err)
-        return next();
+        return res.send('<script>alert("로그인을 해주세요");location.href="/user/login";</script>');
       }
       console.log('성공')
-      return res.cookie('auth', token, { expires: date }).redirect('/article/lists');
+      return res.cookie('auth', token, { expires: date }).send('<script>alert("로그인에 성공하였습니다.");location.href="/article/lists";</script>');
     })
   })(req, res);
 };
