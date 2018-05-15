@@ -25,4 +25,4 @@
 | /article/lists/:uid | GET | 게시글 데이터 user의 id값으로 조회 |
 | /article/edit/:list_id | get | 게시글 데이터 수정할 페이지 |
 | /article/edit/ | PUT | 게시글 데이터 수정 |
-| /article/lists/:list_id | DELETE | 게시글 데이터 삭제 |
+| /article/delete/:list_id | DELETE | 게시글 데이터 삭제 |
