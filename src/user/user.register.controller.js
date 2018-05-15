@@ -42,7 +42,7 @@ exports.singUp = async (req, res) => {
   const createUser = await query.createUser(userInfo);
   if(createUser) {
     console.log('success')
-    return res.status(200).redirect('/user/login');
+    return res.status(200).send('<script>alert("환영합니다. 회원가입에 성공하였습니다.");location.href="/user/login";</script>')
   }
 }
 

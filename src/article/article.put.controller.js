@@ -45,6 +45,6 @@ exports.edit = async (req, res) => {
   const updateArticle = await query.updateTitleAndDescription(article._id, articleEdit);
   if (updateArticle) {
     // return res.status(200).json('성공')
-    return res.status(200).redirect('/article/lists');
+    return res.status(200).send('<script>alert("게시글 수정에 성공하였습니다.");location.href="/article/lists";</script>');
   }
 };
