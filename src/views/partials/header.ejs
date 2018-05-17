@@ -35,6 +35,9 @@
               <a href="/article/list">List</a>
             </li>
             <% if(isLogin) { %>
+              <li>
+                <a href="/user/edit">유저 수정</a>
+              </li>   
               <li><a href="/user/logout" onclick="return confirm('로그아웃 하시겠습니까?')">LogOut</a></li>
             <% } else { %>
               <li><a href="/user/login">LogIn</a></li>
