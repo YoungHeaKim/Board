@@ -24,5 +24,8 @@ module.exports = {
   },
   findAllArticle(data) {
     return Article.find(data);
+  },
+  ArticleCount(data) {
+    return Article.count({data})
   }
 }
