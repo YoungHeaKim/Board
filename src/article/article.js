@@ -4,8 +4,8 @@ const express = require('express');
 const aws = require('aws-sdk');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
-const uuid = require('uuid');
 const path = require('path');
+const paginate = require('express-paginate');
 
 //이미지 저장되는 위치 설정
 const uploadDir = path.join(__dirname, '../uploads');
@@ -45,7 +45,7 @@ const router = express.Router();
 router.get('/lists/:_id', getting.articlePage);
 
 // 메인페이지
-router.get('/lists', getting.mainPage);
+router.get('/lists', paginate.middleware(5,50), getting.mainPage);
 
 // 게시글 수정하는 페이지
 router.get('/edit/:_id', getting.editPage);
