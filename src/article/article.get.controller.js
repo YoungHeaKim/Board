@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 
 exports.mainPage = async (req, res) => {
   const articles = await query.findAllArticle()
+  // article writer와 user db에 있는 user의 이름을 articleList라는 배열에 저장하는 부분
   const articleList = [];
   for(let idx = 0; idx < articles.length; idx++) {
     const articleObj = {};
@@ -13,9 +14,15 @@ exports.mainPage = async (req, res) => {
     articleObj.title = articles[idx].title;
     articleObj.writer = user.nickname;
     articleObj.getDate = articles[idx].getDate;
-    articleObj.updatedDate = articles[idx].updatedDate;    
+    articleObj.updatedDate = articles[idx].updatedDate;
+    articleObj.updatedAt = articles[idx].updatedAt;
     articleList.push(articleObj);
   }
+  // 작성된 순으로 게시글이 쌓이게 하기 위한 부분
+  articleList.sort((a,b) => {
+    return a.updatedAt > b.updatedAt ? -1 : a.updatedAt < b.updatedAt ? 1 : 0;
+  })
+  console.log(articleList);
   res.status(200).render((path.join(__dirname, '../views/article/main.ejs')), { articleList: articleList });
 };
 
