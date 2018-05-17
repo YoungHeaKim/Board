@@ -1,5 +1,4 @@
 const express = require('express');
-const path = require('path');
 
 const cookie = require('./user.cookie.controller');
 const register = require('./user.register.controller');
@@ -10,7 +9,7 @@ const router = express.Router();
 
 // 회원가입부분
 router.get('/register', (req, res) => {
-  res.render(path.join(__dirname, '../views/login/register.ejs'));
+  res.render('login/register');
 });
 
 // 회원가입
@@ -21,7 +20,7 @@ router.post('/cookie', cookie.cookie);
 
 // login 창
 router.get('/login', (req, res) => {
-  res.render(path.join(__dirname, '../views/login/login.ejs'));
+  res.render('login/login');
 })
 
 // 로그아웃
@@ -29,7 +28,7 @@ router.get('/logout', cookie.cookieRemove);
 
 // user 수정하는 페이지
 router.get('/edit', (req, res) => {
-  res.render(path.join(__dirname, '../views/login/edit.ejs'));
+  res.render('login/edit');
 })
 
 // 수정하는 부분(ejs에서)
