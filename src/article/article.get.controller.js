@@ -2,28 +2,37 @@ const query = require('../Query');
 const ms = require('../message');
 const path = require('path');
 const jwt = require('jsonwebtoken');
+const paginate = require('express-paginate');
 
 exports.mainPage = async (req, res) => {
-  const articles = await query.findAllArticle()
+  // paginate부분
+  const [ results, itemCount ] = await Promise.all([
+    query.findAllArticle().sort('-createdAt').limit(req.query.limit).skip(req.skip).exec(),
+    query.ArticleCount()
+  ]);
   // article writer와 user db에 있는 user의 이름을 articleList라는 배열에 저장하는 부분
   const articleList = [];
-  for(let idx = 0; idx < articles.length; idx++) {
+  for (let idx = 0; idx < results.length; idx++) {
     const articleObj = {};
-    const user = await query.checkUserBy_id(articles[idx].writer);
-    articleObj._id = articles[idx]._id;    
-    articleObj.title = articles[idx].title;
+    const user = await query.checkUserBy_id(results[idx].writer);
+    articleObj._id = results[idx]._id;
+    articleObj.title = results[idx].title;
     articleObj.writer = user.nickname;
-    articleObj.getDate = articles[idx].getDate;
-    articleObj.updatedDate = articles[idx].updatedDate;
-    articleObj.createdAt = articles[idx].createdAt;
+    articleObj.getDate = results[idx].getDate;
+    articleObj.updatedDate = results[idx].updatedDate;
+    articleObj.createdAt = results[idx].createdAt;
     articleList.push(articleObj);
   }
-  // 작성된 순으로 게시글이 쌓이게 하기 위한 부분
-  articleList.sort((a,b) => {
-    return a.createdAt > b.createdAt ? -1 : a.createdAt < b.createdAt ? 1 : 0;
-  })
-  console.log(articleList);
-  res.status(200).render((path.join(__dirname, '../views/article/main.ejs')), { articleList: articleList });
+  
+  const pageCount = Math.ceil(itemCount / req.query.limit);
+
+  const pages = paginate.getArrayPages(req)( 5, pageCount, req.query.page);
+
+  res.status(200).render('article/main', {
+    articleList: articleList,
+    pages: pages,
+    pageCount: pageCount,
+  });
 };
 
 exports.articlePage = async (req, res) => {
