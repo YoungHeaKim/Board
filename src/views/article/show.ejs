@@ -12,14 +12,17 @@
         <%= article.getDate.month %> -
         <%= article.getDate.day %>
       <% } else { %>
-        <%= article.updatedDate.year %> -
+        <%= article.getDate.year %> -
+        <%= article.getDate.month %> -
+        <%= article.getDate.day %>
+        (수정된 날짜 : <%= article.updatedDate.year %> -
         <%= article.updatedDate.month %> -
-        <%= article.updatedDate.day %>
+        <%= article.updatedDate.day %>)
       <% } %>
       </div>
       <% if (article.thumbnail) { %>
         <p>
-          <img src="https://wpsn-younghea-board.s3.amazonaws.com/<%= article.thumbnail %>" style="max-width: 100%">
+          <img src="https://wpsn-younghea-board.s3.amazonaws.com/<%= article.thumbnail %>" style="max-width: 100%; height: auto;">
         </p>
       <% } %>
 
