@@ -12,17 +12,19 @@ exports.edit = async (req, res) => {
     return res.status(400).json('찾으시는 글이 없습니다.')
   }
   // 2. 만약 기존파일과 새로운 파일이 다르면 기존파일은 삭제 해준다.
-  if(req.thumbnail !== req.file.key) {
-    console.log('요청파일 존재 시 이전이미지 삭제부분')
-    const params = {
-      Bucket: process.env.S3_BUCKET_NAME,
-      Key: article.thumbnail
-    }
-    s3.deleteObject(params, (err, data) => {
-      if (err) {
-        console.log(err)
+  if (req.file) {
+    if(req.thumbnail !== req.file.key) {
+      console.log('요청파일 존재 시 이전이미지 삭제부분')
+      const params = {
+        Bucket: process.env.S3_BUCKET_NAME,
+        Key: article.thumbnail
       }
-    })
+      s3.deleteObject(params, (err, data) => {
+        if (err) {
+          console.log(err)
+        }
+      })
+    }
   }
   // 3. 파일 수정
   const params = {
