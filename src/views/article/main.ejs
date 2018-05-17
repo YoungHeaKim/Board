@@ -18,15 +18,9 @@
           <%= article.writer %>
         </td>
         <td>
-          <% if(article.createdAt === article.updatedAt) { %>
-            <%= article.getDate.year %> -
-            <%= article.getDate.month %> -
-            <%= article.getDate.day %>
-          <% } else { %>
-            <%= article.updatedDate.year %> -
-            <%= article.updatedDate.month %> -
-            <%= article.updatedDate.day %>
-          <% } %>
+          <%= article.getDate.year %> -
+          <%= article.getDate.month %> -
+          <%= article.getDate.day %>
         </td>
       </tr>
     <% }) %>
