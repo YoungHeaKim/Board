@@ -15,12 +15,12 @@ exports.mainPage = async (req, res) => {
     articleObj.writer = user.nickname;
     articleObj.getDate = articles[idx].getDate;
     articleObj.updatedDate = articles[idx].updatedDate;
-    articleObj.updatedAt = articles[idx].updatedAt;
+    articleObj.createdAt = articles[idx].createdAt;
     articleList.push(articleObj);
   }
   // 작성된 순으로 게시글이 쌓이게 하기 위한 부분
   articleList.sort((a,b) => {
-    return a.updatedAt > b.updatedAt ? -1 : a.updatedAt < b.updatedAt ? 1 : 0;
+    return a.createdAt > b.createdAt ? -1 : a.createdAt < b.createdAt ? 1 : 0;
   })
   console.log(articleList);
   res.status(200).render((path.join(__dirname, '../views/article/main.ejs')), { articleList: articleList });
