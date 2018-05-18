@@ -1,6 +1,5 @@
 const query = require('../Query');
 const ms = require('../message');
-const path = require('path');
 const jwt = require('jsonwebtoken');
 const paginate = require('express-paginate');
 
@@ -46,7 +45,7 @@ exports.articlePage = async (req, res) => {
     console.log('게시글부분 오류')
     res.status(400).json('게시글이 없습니다.')
   }
-  res.status(200).render((path.join(__dirname, '../views/article/show.ejs')), { article: article, nickname: nickname });
+  res.status(200).render('article/show.ejs', { article: article, nickname: nickname });
 };
 
 exports.editPage = async (req, res) => {
@@ -54,5 +53,6 @@ exports.editPage = async (req, res) => {
   if (!article) {
     res.status(400).json('해당 게시글을 불러 올 수 없습니다.')
   }
-  res.status(200).render( 'admin/form', { article: article });
+  const editPage = req.params;
+  res.status(200).render('admin/form', { article: article, editPage: req.params });
 };

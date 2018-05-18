@@ -52,7 +52,7 @@ router.get('/edit/:_id', getting.editPage);
 
 // 게시글 등록하는 페이지
 router.get('/new', (req, res) => {
-  res.render('admin/form', { article : "" });
+  res.render('admin/form', { article : "", editPage : "" });
 })
 
 // 게시글 등록하는 부분
