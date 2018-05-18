@@ -12,62 +12,69 @@
         <td>
           <input type="file" name="thumbnail"/>
           <% if(article.thumbnail) { %>
-            <a href="/uploads/<%= article.thumbnail %>">업로드 이미지 보기</a>
+            <a href="/../uploads/<%=article.thumbnail%>" target="_blank">업로드 이미지 보기</a>
           <% } %>
         </td>
       </tr>
       <tr>
         <th>설명</th>
         <td>
-          <textarea name="content" id="summernote" class="form-control"><%- article.content %></textarea>
+          <textarea name="content" class="form-control" id="summernote"><%- article.content %></textarea>
         </td>
       </tr>
     </table>
     <!-- 만약 edit이면 수정하기와 뒤로가기 버튼이 게시글로 가게 해야한다. -->
-    <button class="btn btn-primary">작성하기</button>
-    <a href="/article/lists" class="btn btn-default">뒤로가기</a>
+    <% if(editPage) { %>
+      <button class="btn btn-primary">수정하기</button>
+      <a href="/article/lists/<%= article._id %>" class="btn btn-default">뒤로가기</a>
+    <% } else { %>
+      <button class="btn btn-primary">작성하기</button>
+      <a href="/article/lists" class="btn btn-default">뒤로가기</a>
+    <% } %>
   </form>
 
   <!-- summernote -->
-  <!-- 스타일관련 -->
-  <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.6/summernote.css" rel="stylesheet">
-  <!-- 자바스크립트관련 -->
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.6/summernote.js"></script>
-  <!-- 한글관련 -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.6/lang/summernote-ko-KR.min.js"></script>
-  <script>
-    $(document).ready(function () {
-      $('#editForm').submit(() => {
-        $('input[name=files]').remove();
-      })
+<!-- 스타일관련 -->
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.6/summernote.css" rel="stylesheet">
+<!-- 자바스크립트관련 -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.6/summernote.js"></script>
+<!-- 한글관련 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.6/lang/summernote-ko-KR.min.js"></script>
 
-      $('#summernote').summernote({
-        lang: 'ko-KR',
-        height: 300,
-        callbacks : {
-          onImageUpload: (files) => {
-            sendFile(files[0]);
-          }
+<script>
+  $(document).ready(function () {
+
+    $('#editForm').submit(function () {
+      $('input[name=files]').remove();
+    });
+
+     $('#summernote').summernote({
+      lang: 'ko-KR',
+      height: 300,
+      callbacks: {
+        onImageUpload: function (files) {
+          sendFile(files[0]);
         }
-      });
-
-      function sendFile(file, editor, welEditable) {
-        data = new FormData();
-        data.append("thumnail", fail);
-        $.ajax({
-          data: data,
-          type: "POST",
-          url: '/article/ajax_summernote/',
-          cache: false,
-          contentType: false,
-          processData: false,
-          success: (url) => {
-            $('#summernote').summernote("insertImage", url);
-          }
-        });
       }
     });
-  </script>
+
+    function sendFile(file, editor, welEditable) {
+      data = new FormData();
+      data.append("thumbnail", file);
+      $.ajax({
+        data: data,
+        type: "POST",
+        url: '/article/ajax_summernote/',
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (url) {
+          $('#summernote').summernote("insertImage", url);
+        }
+      });
+    }
+  });
+</script>
 
 
   <% include ../partials/footer.ejs %>
