@@ -8,7 +8,7 @@ const path = require('path');
 const paginate = require('express-paginate');
 
 //이미지 저장되는 위치 설정
-const uploadDir = path.join(__dirname, '../uploads');
+const uploadDir = path.join(__dirname, '../../uploads');
 const fs = require('fs');
 
 // aws s3 부분
@@ -19,7 +19,7 @@ const s3 = new aws.S3({
   secretAccessKey: awsSecretKey,
 });
 
-// 사진 업로드
+// s3에 사진 업로드
 const upload = multer({
   storage: multerS3({
     s3: s3,
@@ -29,6 +29,18 @@ const upload = multer({
       cb(null, Date.now().toString() + extension)
     },
     acl: 'public-read-write',
+  })
+});
+
+// uploads파일에 사진 업로드
+const uploadPic = multer({
+  storage: multer.diskStorage({
+    destination: function (req, file, callback) { //이미지가 저장되는 도착지 지정
+      callback(null, uploadDir);
+    },
+    filename: function (req, file, callback) { // products-날짜.jpg(png) 저장 
+      callback(null, 'products-' + Date.now() + '.' + file.mimetype.split('/')[1]);
+    }
   })
 });
 
@@ -67,6 +79,8 @@ router.get('/delete/:_id', deleting.delete);
 router.delete('/delete/:_id', deleting.delete);
 
 // summernote 부분
-router.post('/ajax_summernote', upload.single('thumbnail'), posting.summernote);
+router.post('/ajax_summernote', uploadPic.single('thumbnail'), (req, res) => {
+  res.send('/uploads/' + req.file.filename);
+});
 
 module.exports = router;
