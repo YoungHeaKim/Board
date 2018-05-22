@@ -20,7 +20,3 @@ exports.createArticle = async (req, res) => {
     return res.status(200).send('<script>alert("게시글 등록에 성공하였습니다.");location.href="/article/lists";</script>')
   }
 };
-
-exports.summernote = (req, res) => {
-  res.send('/uploads' + req.file.filename);
-}
