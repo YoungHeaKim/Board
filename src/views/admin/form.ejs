@@ -68,7 +68,7 @@
         cache: false,
         contentType: false,
         processData: false,
-        success: function (url) {
+        success: (url) => {
           $('#summernote').summernote("insertImage", url);
         }
       });
