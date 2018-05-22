@@ -20,8 +20,8 @@ global.db = mongoose.createConnection(process.env.MONGO_URI);
 const server = http.Server(app);
 // user 부분
 const User = require('./src/user/user');
-// auth 부분
-const Auth = require('./src/user/auth');
+// // auth 부분
+// const Auth = require('./src/user/auth');
 // 게시판 부분
 const Article = require('./src/article/article');
 // login - checker
@@ -76,7 +76,7 @@ app.use( (req, res, next) => {
 })
 
 app.use('/user', User);
-app.use('/auth', Auth);
+// app.use('/auth', Auth);
 app.use('/article', checker.accessChecker, Article);
 // 기본페이지를 리스트페이지로 변환
 app.use('/', (req, res) => {
