@@ -17,19 +17,19 @@ const session = require('express-session');
 // mongodb 접속
 const mongoose = require('mongoose');
 global.db = mongoose.createConnection(process.env.MONGO_URI);
-const jwt = require('jsonwebtoken');
 const server = http.Server(app);
-const query = require('./Query');
 // user 부분
-const User = require('./user/user');
+const User = require('./src/user/user');
+// auth 부분
+const Auth = require('./src/user/auth');
 // 게시판 부분
-const Article = require('./article/article');
+const Article = require('./src/article/article');
 // login - checker
-const checker = require('./user/user.access.controller')
+const checker = require('./src/user/user.access.controller')
 
 // ejs 템플릿
 // 확장자가 ejs 로 끈나는 뷰 엔진을 추가한다.
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'src/views'));
 app.set('view engine', 'ejs');
 
 // 미들웨어 셋팅
@@ -40,6 +40,9 @@ app.use(cookieParser());
 
 // upload path
 app.use('/uploads', express.static('uploads'));
+
+//static path 추가
+app.use('/static', express.static('static'));
 
 // session 관련 셋팅
 const connectMongo = require('connect-mongo');
@@ -73,6 +76,7 @@ app.use( (req, res, next) => {
 })
 
 app.use('/user', User);
+app.use('/auth', Auth);
 app.use('/article', checker.accessChecker, Article);
 // 기본페이지를 리스트페이지로 변환
 app.use('/', (req, res) => {
