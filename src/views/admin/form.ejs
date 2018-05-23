@@ -1,5 +1,6 @@
 <% include ../partials/header.ejs %>
   <form action="" method="post" enctype="multipart/form-data" id="editForm">
+    <input type="hidden" name="_csrf" value="<%=csrfToken%>" />
     <table class="table table-bordered">
       <tr>
         <th>게시글 제목</th>

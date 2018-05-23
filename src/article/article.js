@@ -7,6 +7,10 @@ const multerS3 = require('multer-s3');
 const path = require('path');
 const paginate = require('express-paginate');
 
+// csrf 셋팅
+var csrf = require('csurf');
+var csrfProtection = csrf({ cookie: true });
+
 //이미지 저장되는 위치 설정
 const uploadDir = path.join(__dirname, '../../uploads');
 const fs = require('fs');
@@ -60,19 +64,19 @@ router.get('/lists/:_id', getting.articlePage);
 router.get('/lists', paginate.middleware(5,50), getting.mainPage);
 
 // 게시글 수정하는 페이지
-router.get('/edit/:_id', getting.editPage);
+router.get('/edit/:_id', csrfProtection, getting.editPage);
 
 // 게시글 등록하는 페이지
-router.get('/new', (req, res) => {
-  res.render('admin/form', { article : "", editPage : "" });
+router.get('/new', csrfProtection, (req, res) => {
+  res.render('admin/form', { article: "", editPage: "", csrfToken: req.csrfToken() });
 })
 
 // 게시글 등록하는 부분
-router.post('/new', upload.single('thumbnail'), posting.createArticle);
+router.post('/new', upload.single('thumbnail'), csrfProtection, posting.createArticle);
 
 // 게시글 수정하는 부분
-router.post('/edit/:_id', upload.single('thumbnail'), putting.edit);
-router.put('/edit/:_id', upload.single('thumbnail'), putting.edit);
+router.post('/edit/:_id', upload.single('thumbnail'), csrfProtection, putting.edit);
+router.put('/edit/:_id', upload.single('thumbnail'), csrfProtection, putting.edit);
 
 // 게시글 삭제하는 부분
 router.get('/delete/:_id', deleting.delete);
