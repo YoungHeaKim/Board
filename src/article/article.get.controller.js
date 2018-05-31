@@ -47,12 +47,3 @@ exports.articlePage = async (req, res) => {
   }
   res.status(200).render('article/show.ejs', { article: article, nickname: nickname });
 };
-
-exports.editPage = async (req, res) => {
-  const article = await query.findArticleById(req.params._id);
-  if (!article) {
-    res.status(400).json('해당 게시글을 불러 올 수 없습니다.')
-  }
-  const editPage = req.params;
-  res.status(200).render('admin/form', { article: article, editPage: req.params });
-};
