@@ -72,7 +72,7 @@ router.get('/edit/:_id', csrfProtection, async (req, res) => {
   }
   const editPage = req.params;
   res.status(200).render('admin/form', { article: article, editPage: req.params, csrfToken: req.csrfToken() });
-};);
+});
 
 // 게시글 등록하는 페이지
 router.get('/new', csrfProtection, (req, res) => {
