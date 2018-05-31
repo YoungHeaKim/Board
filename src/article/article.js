@@ -6,6 +6,7 @@ const multer = require('multer');
 const multerS3 = require('multer-s3');
 const path = require('path');
 const paginate = require('express-paginate');
+const query = require('../Query');
 
 // csrf 셋팅
 var csrf = require('csurf');
@@ -64,7 +65,14 @@ router.get('/lists/:_id', getting.articlePage);
 router.get('/lists', paginate.middleware(5,50), getting.mainPage);
 
 // 게시글 수정하는 페이지
-router.get('/edit/:_id', csrfProtection, getting.editPage);
+router.get('/edit/:_id', csrfProtection, async (req, res) => {
+  const article = await query.findArticleById(req.params._id);
+  if (!article) {
+    res.status(400).json('해당 게시글을 불러 올 수 없습니다.')
+  }
+  const editPage = req.params;
+  res.status(200).render('admin/form', { article: article, editPage: req.params, csrfToken: req.csrfToken() });
+};);
 
 // 게시글 등록하는 페이지
 router.get('/new', csrfProtection, (req, res) => {
