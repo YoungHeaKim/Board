@@ -1,0 +1,57 @@
+<% include ../partials/header.ejs %>
+
+  <table class="table table-bordered table-hover">
+    <tr>
+      <th>제목</th>
+      <th>작성자</th>
+      <th>작성일</th>    
+    </tr>
+    <% if(articleList == null || articleList.length == 0) { %>
+      <tr>
+        <td colspan=100>Article이 없습니다.</td>
+      </tr>
+    <% } %>
+    <% articleList.forEach( (article) => { %>
+      <tr>  
+        <td><a href="/article/lists/<%= article._id %>"><%= article.title %></a></td>
+        <td>
+          <%= article.writer %>
+        </td>
+        <td>
+          <%= article.getDate.year %> -
+          <%= article.getDate.month %> -
+          <%= article.getDate.day %>
+        </td>
+      </tr>
+    <% }) %>
+  </table>
+
+  <nav>
+    <ul class="pagination">
+      <li>
+        <a href="<%= paginate.href(true) %>" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <% pages.forEach(function(page){ %>
+        <li class="<%= paginate.page == page.number ? 'active' : ''%>">
+          <a href="<%= page.url %>">
+            <%= page.number %>
+          </a>
+        </li>
+      <%})%>
+
+      <%if(paginate.hasNextPages(pageCount)){%>
+        <li>
+          <a href="<%= paginate.href() %>">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      <%}%>
+    </ul>
+  </nav>
+
+
+  <a href="/article/new" class="btn btn-default">새 게시글 등록하기</a>
+
+  <% include ../partials/footer.ejs %>
